@@ -1,7 +1,8 @@
 import streamlit as st
 import os
+import pandas as pd
+import numpy as np
 from dashboard import show_dashboard
-from preprocess_data import process_excel_data
 
 # Page configuration
 st.set_page_config(page_title="Risk Management Dashboard", layout="wide")
@@ -134,24 +135,61 @@ if 'data_loaded' not in st.session_state:
 
 # Auto-load dummy data on first run
 if not st.session_state.data_loaded:
-    # Try multiple possible paths
-    possible_paths = ["dummy_data_2024_2025.xlsx"]
+    dummy_file_path = "dummy_data_2024_2025.xlsx"
 
-    for dummy_file_path in possible_paths:
-        if os.path.exists(dummy_file_path):
-            try:
-                df_ytd, df_summary, df_summary_present, latest_col_idx, latest_col_ytd_idx, success, message = process_excel_data(dummy_file_path)
+    if os.path.exists(dummy_file_path):
+        try:
+            # Read Data_YTD sheet
+            df_ytd = pd.read_excel(dummy_file_path, sheet_name="Data_YTD")
 
-                if success:
-                    st.session_state.df_ytd = df_ytd
-                    st.session_state.df_summary = df_summary
-                    st.session_state.df_summary_present = df_summary_present
-                    st.session_state.latest_col_idx = latest_col_idx
-                    st.session_state.latest_col_ytd_idx = latest_col_ytd_idx
-                    st.session_state.data_loaded = True
-                    break
-            except Exception as e:
-                continue  # Try next path
+            # Set Parameter column
+            if 'Unnamed: 1' in df_ytd.columns:
+                df_ytd = df_ytd.rename(columns={'Unnamed: 1': 'Parameter'})
+
+            # Find the latest non-empty column
+            first_row = df_ytd.iloc[0]
+            non_null_cols = [col for col in df_ytd.columns if col != 'Parameter' and col != 'Unnamed: 0' and pd.notna(first_row[col])]
+
+            if non_null_cols:
+                latest_col_ytd_idx = non_null_cols[-1]
+            else:
+                latest_col_ytd_idx = None
+
+            # Read Summary sheet
+            df_summary = pd.read_excel(dummy_file_path, sheet_name="Summary")
+
+            # Find the latest data columns in summary
+            if 'Jenis Risiko' in df_summary.columns:
+                # Get the last 6 columns (2 months x 3 columns each)
+                summary_cols = [col for col in df_summary.columns if col not in ['Unnamed: 0', 'Jenis Risiko']]
+
+                if len(summary_cols) >= 6:
+                    latest_col_idx = len(df_summary.columns) - 3
+                    prev_col_idx = len(df_summary.columns) - 6
+
+                    latest_col = df_summary.columns[latest_col_idx]
+                    previous_col = df_summary.columns[prev_col_idx]
+
+                    df_summary_present = df_summary[['Jenis Risiko', previous_col, latest_col]].copy()
+                    df_summary_present.columns = ['Kategori Risiko', 'previous_month', 'present_month']
+                else:
+                    df_summary_present = None
+                    latest_col_idx = None
+            else:
+                df_summary_present = None
+                latest_col_idx = None
+
+            # Store in session state
+            st.session_state.df_ytd = df_ytd
+            st.session_state.df_summary = df_summary
+            st.session_state.df_summary_present = df_summary_present
+            st.session_state.latest_col_idx = latest_col_idx
+            st.session_state.latest_col_ytd_idx = latest_col_ytd_idx
+            st.session_state.data_loaded = True
+
+        except Exception as e:
+            # Show error for debugging
+            st.session_state.load_error = str(e)
 
 def main():
     """Main function to control navigation"""
@@ -196,6 +234,8 @@ def main():
         else:
             st.error("⚠️ Data not loaded. Please ensure 'dummy_data_2024_2025.xlsx' exists in the application directory.")
             st.info("Expected file: dummy_data_2024_2025.xlsx")
+            if hasattr(st.session_state, 'load_error'):
+                st.error(f"Load Error: {st.session_state.load_error}")
 
     elif st.session_state.page == 'dashboard':
         show_dashboard()
