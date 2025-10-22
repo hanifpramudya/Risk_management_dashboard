@@ -142,10 +142,6 @@ def main():
             st.session_state.page = 'menu'
             st.rerun()
 
-        if st.button("📤 Update Data", use_container_width=True):
-            st.session_state.page = 'upload'
-            st.rerun()
-
         if st.button("📊 View Dashboard", use_container_width=True):
             if st.session_state.df_ytd is not None and st.session_state.df_summary_present is not None:
                 st.session_state.page = 'dashboard'
@@ -168,19 +164,12 @@ def main():
         st.write("Welcome to the Risk Management Dashboard")
         st.write("")
 
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.button("📤 Update Data", use_container_width=True, key="menu_upload"):
-                st.session_state.page = 'upload'
+        if st.button("📊 View Dashboard", use_container_width=True, key="menu_dashboard"):
+            if st.session_state.df_ytd is not None and st.session_state.df_summary_present is not None:
+                st.session_state.page = 'dashboard'
                 st.rerun()
-
-        with col2:
-            if st.button("📊 View Dashboard", use_container_width=True, key="menu_dashboard"):
-                if st.session_state.df_ytd is not None and st.session_state.df_summary_present is not None:
-                    st.session_state.page = 'dashboard'
-                    st.rerun()
-                else:
-                    st.warning("Please upload data first!")
+            else:
+                st.warning("Please upload data first!")
 
     elif st.session_state.page == 'upload':
         show_data_upload()
