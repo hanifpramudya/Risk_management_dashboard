@@ -289,8 +289,8 @@ def show_dashboard():
                     # Graph 1: Jumlah Pendapatan (left column, row 1)
                     with col1_row1:
                         try:
-                            dates = [col for col in present_col_ytd]
-                            values = [st.session_state.df_ytd[col].iloc[value_idx[0]] for col in present_col_ytd]
+                            dates = [col for col in present_col_ytd if not str(col).startswith('Unnamed')]
+                            values = [st.session_state.df_ytd[col].iloc[value_idx[0]] for col in present_col_ytd if not str(col).startswith('Unnamed')]
 
                             fig_line = go.Figure()
                             fig_line.add_trace(go.Scatter(
@@ -310,8 +310,8 @@ def show_dashboard():
                     # Graph 2: Premi Bruto (right column, row 1)
                     with col2_row1:
                         try:
-                            dates = [col for col in present_col_ytd]
-                            values = [st.session_state.df_ytd[col].iloc[value_idx[1]] for col in present_col_ytd]
+                            dates = [col for col in present_col_ytd if not str(col).startswith('Unnamed')]
+                            values = [st.session_state.df_ytd[col].iloc[value_idx[1]] for col in present_col_ytd if not str(col).startswith('Unnamed')]
 
                             fig_line = go.Figure()
                             fig_line.add_trace(go.Scatter(
@@ -334,8 +334,8 @@ def show_dashboard():
                     # Graph 3: Klaim Bruto (left column, row 2)
                     with col1_row2:
                         try:
-                            dates = [col for col in present_col_ytd]
-                            values = [st.session_state.df_ytd[col].iloc[value_idx[2]] for col in present_col_ytd]
+                            dates = [col for col in present_col_ytd if not str(col).startswith('Unnamed')]
+                            values = [st.session_state.df_ytd[col].iloc[value_idx[2]] for col in present_col_ytd if not str(col).startswith('Unnamed')]
 
                             fig_line = go.Figure()
                             fig_line.add_trace(go.Scatter(
@@ -355,8 +355,8 @@ def show_dashboard():
                     # Graph 4: Laba Rugi Komprehensif (right column, row 2)
                     with col2_row2:
                         try:
-                            dates = [col for col in present_col_ytd]
-                            values = [st.session_state.df_ytd[col].iloc[value_idx[3]] for col in present_col_ytd]
+                            dates = [col for col in present_col_ytd if not str(col).startswith('Unnamed')]
+                            values = [st.session_state.df_ytd[col].iloc[value_idx[3]] for col in present_col_ytd if not str(col).startswith('Unnamed')]
 
                             fig_line = go.Figure()
                             fig_line.add_trace(go.Scatter(
@@ -379,8 +379,8 @@ def show_dashboard():
                     with tabs_line[tab_idx]:
                         try:
                             title = line_titles[tab_idx - 1]
-                            dates = [col for col in present_col_ytd]
-                            values = [st.session_state.df_ytd[col].iloc[value_idx[tab_idx - 1]] for col in present_col_ytd]
+                            dates = [col for col in present_col_ytd if not str(col).startswith('Unnamed')]
+                            values = [st.session_state.df_ytd[col].iloc[value_idx[tab_idx - 1]] for col in present_col_ytd if not str(col).startswith('Unnamed')]
 
                             fig_line = go.Figure()
                             fig_line.add_trace(go.Scatter(
