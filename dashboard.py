@@ -246,10 +246,14 @@ def show_dashboard():
             with st.container(border=True):
                 # Display title
                 st.markdown(f"<div style='text-align: center; color: #999; font-size: 12px;'>{titles[i]}</div>", unsafe_allow_html=True)
-                # Get value from df_ytd
+                # Get value from df_ytd - need to access the data column (Unnamed: X) not the month column
                 if st.session_state.df_ytd is not None and latest_col_ytd_idx:
                     try:
-                        value = st.session_state.df_ytd[latest_col_ytd_idx].iloc[value_idx[i]]
+                        # Get the column position of the month name, then get the next column (data column)
+                        col_position = st.session_state.df_ytd.columns.get_loc(latest_col_ytd_idx)
+                        data_col = st.session_state.df_ytd.columns[col_position + 1]  # Next column contains the data
+                        value = st.session_state.df_ytd[data_col].iloc[value_idx[i]]
+
                         # Format value for display (except RBC which stays as percentage)
                         if i == 6:  # RBC - display as percentage
                             formatted_value = format_percentage(value)
@@ -258,7 +262,7 @@ def show_dashboard():
                         else:  # Format other values in mil/bil
                             formatted_value = format_value(value)
                             st.markdown(f"<div style='text-align: center; font-size: 24px; font-weight: bold; color: #333; margin: 5px 0;'>{formatted_value}</div>", unsafe_allow_html=True)
-                    except:
+                    except Exception as e:
                         st.markdown("<div style='text-align: center; font-size: 24px; font-weight: bold; color: #333; margin: 5px 0;'>-</div>", unsafe_allow_html=True)
                 else:
                     st.markdown("<div style='text-align: center; font-size: 24px; font-weight: bold; color: #333; margin: 5px 0;'>-</div>", unsafe_allow_html=True)
@@ -502,10 +506,12 @@ def show_dashboard():
                 st.markdown(f"<div style='text-align: center; color: #999; font-size: 12px;'>{title}</div>", unsafe_allow_html=True)
                 if st.session_state.df_ytd is not None and latest_col_ytd_idx:
                     try:
-                        # Offset index by 7 since previous section used 0-6
-                        value = null_value(st.session_state.df_ytd[latest_col_ytd_idx].iloc[value_idx[i]])
+                        # Get the data column (next column after month name)
+                        col_position = st.session_state.df_ytd.columns.get_loc(latest_col_ytd_idx)
+                        data_col = st.session_state.df_ytd.columns[col_position + 1]
+                        value = null_value(st.session_state.df_ytd[data_col].iloc[value_idx[i]])
                         st.markdown(f"<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>{value}</div>", unsafe_allow_html=True)
-                    except:
+                    except Exception as e:
                         st.markdown("<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>0</div>", unsafe_allow_html=True)
                 else:
                     st.markdown("<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>0</div>", unsafe_allow_html=True)
@@ -519,10 +525,12 @@ def show_dashboard():
                 st.markdown(f"<div style='text-align: center; color: #999; font-size: 12px;'>{title}</div>", unsafe_allow_html=True)
                 if st.session_state.df_ytd is not None and latest_col_ytd_idx:
                     try:
-                        # Offset index by 10 (7 from first section + 3 from col_a)
-                        value = null_value(st.session_state.df_ytd[latest_col_ytd_idx].iloc[value_idx[i]])
+                        # Get the data column (next column after month name)
+                        col_position = st.session_state.df_ytd.columns.get_loc(latest_col_ytd_idx)
+                        data_col = st.session_state.df_ytd.columns[col_position + 1]
+                        value = null_value(st.session_state.df_ytd[data_col].iloc[value_idx[i]])
                         st.markdown(f"<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>{value}</div>", unsafe_allow_html=True)
-                    except:
+                    except Exception as e:
                         st.markdown("<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>0</div>", unsafe_allow_html=True)
                 else:
                     st.markdown("<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>0</div>", unsafe_allow_html=True)
@@ -536,10 +544,12 @@ def show_dashboard():
                 st.markdown(f"<div style='text-align: center; color: #999; font-size: 12px;'>{title}</div>", unsafe_allow_html=True)
                 if st.session_state.df_ytd is not None and latest_col_ytd_idx:
                     try:
-                        # Offset index by 12 (7 + 3 + 2)
-                        value = null_value(st.session_state.df_ytd[latest_col_ytd_idx].iloc[value_idx[i]])
+                        # Get the data column (next column after month name)
+                        col_position = st.session_state.df_ytd.columns.get_loc(latest_col_ytd_idx)
+                        data_col = st.session_state.df_ytd.columns[col_position + 1]
+                        value = null_value(st.session_state.df_ytd[data_col].iloc[value_idx[i]])
                         st.markdown(f"<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>{value}</div>", unsafe_allow_html=True)
-                    except:
+                    except Exception as e:
                         st.markdown("<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>0</div>", unsafe_allow_html=True)
                 else:
                     st.markdown("<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>0</div>", unsafe_allow_html=True)
