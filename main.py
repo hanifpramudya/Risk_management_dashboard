@@ -134,20 +134,28 @@ if 'data_loaded' not in st.session_state:
 
 # Auto-load dummy data on first run
 if not st.session_state.data_loaded:
-    dummy_file_path = os.path.join(os.path.dirname(__file__), 'dummy_data_2024_2025.xlsx')
-    if os.path.exists(dummy_file_path):
-        try:
-            df_ytd, df_summary, df_summary_present, latest_col_idx, latest_col_ytd_idx, success, message = process_excel_data(dummy_file_path)
+    # Try multiple possible paths
+    possible_paths = [
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dummy_data_2024_2025.xlsx'),
+        os.path.join(os.getcwd(), 'dummy_data_2024_2025.xlsx'),
+        'dummy_data_2024_2025.xlsx'
+    ]
 
-            if success:
-                st.session_state.df_ytd = df_ytd
-                st.session_state.df_summary = df_summary
-                st.session_state.df_summary_present = df_summary_present
-                st.session_state.latest_col_idx = latest_col_idx
-                st.session_state.latest_col_ytd_idx = latest_col_ytd_idx
-                st.session_state.data_loaded = True
-        except Exception as e:
-            pass  # Silently fail if data cannot be loaded
+    for dummy_file_path in possible_paths:
+        if os.path.exists(dummy_file_path):
+            try:
+                df_ytd, df_summary, df_summary_present, latest_col_idx, latest_col_ytd_idx, success, message = process_excel_data(dummy_file_path)
+
+                if success:
+                    st.session_state.df_ytd = df_ytd
+                    st.session_state.df_summary = df_summary
+                    st.session_state.df_summary_present = df_summary_present
+                    st.session_state.latest_col_idx = latest_col_idx
+                    st.session_state.latest_col_ytd_idx = latest_col_ytd_idx
+                    st.session_state.data_loaded = True
+                    break
+            except Exception as e:
+                continue  # Try next path
 
 def main():
     """Main function to control navigation"""
