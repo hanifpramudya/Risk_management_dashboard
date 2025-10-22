@@ -33,9 +33,10 @@ def show_dashboard():
     selected_date = None
     with date_col1:
         if st.session_state.latest_col_ytd_idx and st.session_state.df_ytd is not None:
-            # Get columns up to latest_col_ytd_idx, excluding 'Parameter'
+            # Get columns up to latest_col_ytd_idx, excluding 'Parameter' and 'Unnamed' columns
             temp_col_position = st.session_state.df_ytd.columns.get_loc(st.session_state.latest_col_ytd_idx)
-            available_dates = [col for col in st.session_state.df_ytd.columns[:temp_col_position+1] if col != 'Parameter']
+            available_dates = [col for col in st.session_state.df_ytd.columns[:temp_col_position+1]
+                             if col != 'Parameter' and not str(col).startswith('Unnamed')]
             if available_dates:
                 selected_date = st.selectbox(
                     "Select Date",

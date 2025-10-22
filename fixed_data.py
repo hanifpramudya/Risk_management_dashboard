@@ -110,20 +110,35 @@ def initialize_fixed_data():
         143: [8, 7, 9, 8, 7, 8, 6, 7, 8, 7, 6, 7, 8],  # Row 144: Pemberitaan Negatif
     }
 
-    # Create YTD DataFrame
-    ytd_data = {'Unnamed: 0': ['No'] + list(range(1, len(parameters))),
-                'Parameter': parameters}
+    # Create YTD DataFrame with proper column structure
+    # Column structure mirrors the Excel file: Unnamed: 0, Parameter, then pairs of (month_year, Unnamed: X) for each month
 
-    # Add data for each month
+    ytd_data = {}
+
+    # First two columns
+    ytd_data['Unnamed: 0'] = ['No'] + list(range(1, len(parameters)))
+    ytd_data['Parameter'] = parameters
+
+    # Add data for each month (each month has 2 columns: year column and data column)
+    col_counter = 2  # Start after 'Unnamed: 0' and 'Parameter'
+
     for month_idx, month in enumerate(months):
         month_name = month.split('-')[0]
         year = int(month.split('-')[1])
 
-        # Year column
-        ytd_data[month] = [year] + [np.nan] * (len(parameters) - 1)
+        # Convert to full month name for column header
+        full_month_names = {
+            'Aug': 'August', 'Sep': 'September', 'Oct': 'October', 'Nov': 'November',
+            'Dec': 'December', 'Jan': 'January', 'Feb': 'February', 'Mar': 'March',
+            'Apr': 'April', 'May': 'May', 'Jun': 'June', 'Jul': 'July'
+        }
+        full_month = full_month_names[month_name]
 
-        # Data column
-        data_values = [month_name]  # First row is month name
+        # Year column (shows year in first row, NaN for rest)
+        ytd_data[full_month] = [year] + [np.nan] * (len(parameters) - 1)
+
+        # Data column (shows month name in first row, then actual data)
+        data_values = [month_name]  # First row is abbreviated month name
 
         for param_idx in range(1, len(parameters)):
             if param_idx in fixed_monthly_data:
@@ -138,7 +153,8 @@ def initialize_fixed_data():
                 else:
                     data_values.append(10 + param_idx % 20)
 
-        ytd_data[f'Unnamed: {2 + month_idx * 2 + 1}'] = data_values
+        ytd_data[f'Unnamed: {col_counter + 1}'] = data_values
+        col_counter += 2
 
     df_ytd = pd.DataFrame(ytd_data)
 
@@ -213,8 +229,14 @@ def initialize_fixed_data():
     df_summary_present = df_summary[['Jenis Risiko', previous_col, latest_col]].copy()
     df_summary_present.columns = ['Kategori Risiko', 'previous_month', 'present_month']
 
-    # Return latest column index for YTD
-    latest_col_ytd_idx = months[-1]
+    # Return latest column index for YTD (use full month name, not abbreviated)
+    latest_month = months[-1].split('-')[0]  # 'Aug'
+    full_month_names = {
+        'Aug': 'August', 'Sep': 'September', 'Oct': 'October', 'Nov': 'November',
+        'Dec': 'December', 'Jan': 'January', 'Feb': 'February', 'Mar': 'March',
+        'Apr': 'April', 'May': 'May', 'Jun': 'June', 'Jul': 'July'
+    }
+    latest_col_ytd_idx = full_month_names[latest_month]  # 'August' instead of 'Aug-2025'
 
     return {
         'df_ytd': df_ytd,
