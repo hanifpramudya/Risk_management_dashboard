@@ -192,12 +192,14 @@ def main():
         st.write("Welcome to the Risk Management Dashboard")
         st.write("")
 
-        if st.button("📊 View Dashboard", use_container_width=True, key="menu_dashboard"):
-            if st.session_state.df_ytd is not None and st.session_state.df_summary_present is not None:
+        # Auto-navigate to dashboard if data is loaded
+        if st.session_state.df_ytd is not None and st.session_state.df_summary_present is not None:
+            if st.button("📊 View Dashboard", use_container_width=True, key="menu_dashboard"):
                 st.session_state.page = 'dashboard'
                 st.rerun()
-            else:
-                st.warning("Please upload data first!")
+        else:
+            st.error("⚠️ Data not loaded. Please ensure 'dummy_data_2024_2025.xlsx' exists in the application directory.")
+            st.info("Expected file: dummy_data_2024_2025.xlsx")
 
     elif st.session_state.page == 'dashboard':
         show_dashboard()
