@@ -135,11 +135,7 @@ if 'data_loaded' not in st.session_state:
 # Auto-load dummy data on first run
 if not st.session_state.data_loaded:
     # Try multiple possible paths
-    possible_paths = [
-        os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dummy_data_2024_2025.xlsx'),
-        os.path.join(os.getcwd(), 'dummy_data_2024_2025.xlsx'),
-        'dummy_data_2024_2025.xlsx'
-    ]
+    possible_paths = ["dummy_data_2024_2025.xlsx"]
 
     for dummy_file_path in possible_paths:
         if os.path.exists(dummy_file_path):
