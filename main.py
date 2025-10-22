@@ -1,6 +1,7 @@
 import streamlit as st
-from show_upload_data import show_data_upload
+import os
 from dashboard import show_dashboard
+from preprocess_data import process_excel_data
 
 # Page configuration
 st.set_page_config(page_title="Risk Management Dashboard", layout="wide")
@@ -128,6 +129,25 @@ if 'latest_col_ytd_idx' not in st.session_state:
     st.session_state.latest_col_ytd_idx = None
 if 'latest_col_idx' not in st.session_state:
     st.session_state.latest_col_idx = None
+if 'data_loaded' not in st.session_state:
+    st.session_state.data_loaded = False
+
+# Auto-load dummy data on first run
+if not st.session_state.data_loaded:
+    dummy_file_path = os.path.join(os.path.dirname(__file__), 'dummy_data_2024_2025.xlsx')
+    if os.path.exists(dummy_file_path):
+        try:
+            df_ytd, df_summary, df_summary_present, latest_col_idx, latest_col_ytd_idx, success, message = process_excel_data(dummy_file_path)
+
+            if success:
+                st.session_state.df_ytd = df_ytd
+                st.session_state.df_summary = df_summary
+                st.session_state.df_summary_present = df_summary_present
+                st.session_state.latest_col_idx = latest_col_idx
+                st.session_state.latest_col_ytd_idx = latest_col_ytd_idx
+                st.session_state.data_loaded = True
+        except Exception as e:
+            pass  # Silently fail if data cannot be loaded
 
 def main():
     """Main function to control navigation"""
@@ -170,9 +190,6 @@ def main():
                 st.rerun()
             else:
                 st.warning("Please upload data first!")
-
-    elif st.session_state.page == 'upload':
-        show_data_upload()
 
     elif st.session_state.page == 'dashboard':
         show_dashboard()
