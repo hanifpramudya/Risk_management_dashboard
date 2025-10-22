@@ -52,60 +52,62 @@ def initialize_fixed_data():
     ]
 
     # Fixed values for 12 months (based on dashboard requirements)
-    # Index mapping from dashboard.py:
-    # 0: Aset Investasi
-    # 1: Deposito Berjangka
-    # 2: Obligasi Korporasi
-    # 3: Surat Berharga yang Diterbitkan oleh Negara RI
-    # 4: Reksa Dana
-    # 5: Kas dan Bank
-    # 9: Jumlah Aset
-    # 14: Jumlah Utang
-    # 15: Jumlah Ekuitas
-    # 16: Premi Bruto (All)
-    # 25: Jumlah Pendapatan
-    # 26: Klaim Bruto (All)
-    # 43: Total Laba (Rugi) Komprehensif
-    # 51: RBC
-    # 116: Jumlah Polis
-    # 117: Jumlah Fraud
-    # 132: Jumlah Gugatan
-    # 133: Jumlah Nominal Gugatan Yang Sedang Diajukan
-    # 134: Jumlah Pelanggaran Atas Ketentuan
-    # 137: Jumlah Denda
-    # 139: Jumlah Pengaduan
-    # 141: Indak Lanjut Pengaduan
-    # 143: Jumlah Pemberitaan Negatif Dalam 1 Tahun
+    # Index mapping from dashboard.py (NOTE: Index 0 is 'Parameter' header, so actual data starts at index 1)
+    # Dashboard uses these indices to access df_ytd data:
+    # Row 1 (idx 0 in data): Aset Investasi - used in dashboard line 240 [value_idx[5]=0]
+    # Row 2 (idx 1): Deposito Berjangka - used in pie charts line 413 [value_idx[0]=1]
+    # Row 3 (idx 2): Obligasi Korporasi - used in pie charts line 413 [value_idx[1]=2]
+    # Row 4 (idx 3): Surat Berharga Negara RI - used in pie charts line 413 [value_idx[2]=3]
+    # Row 5 (idx 4): Reksa Dana - used in pie charts line 413 [value_idx[3]=4]
+    # Row 6 (idx 5): Kas dan Bank - used in dashboard line 240 [value_idx[4]=5]
+    # Row 10 (idx 9): Jumlah Aset - used in dashboard line 240 [value_idx[0]=9]
+    # Row 15 (idx 14): Jumlah Utang - used in dashboard line 240 [value_idx[1]=14]
+    # Row 16 (idx 15): Jumlah Ekuitas - used in dashboard line 240 [value_idx[2]=15]
+    # Row 17 (idx 16): Premi Bruto (All) - used in line charts line 283 & 376 [value_idx[1]=16]
+    # Row 26 (idx 25): Jumlah Pendapatan - used in line charts line 376 [value_idx[0]=25]
+    # Row 27 (idx 26): Klaim Bruto (All) - used in line charts line 283 & 376 [value_idx[2]=26]
+    # Row 44 (idx 43): Total Laba (Rugi) Komprehensif - used in line charts line 283 & 376 [value_idx[3]=43]
+    # Row 52 (idx 51): RBC - used in dashboard line 240 [value_idx[6]=51]
+    # Row 117 (idx 116): Jumlah Polis - used in dashboard line 240 [value_idx[3]=116]
+    # Row 118 (idx 117): Jumlah Fraud - used in dashboard line 517 [value_idx[0]=117]
+    # Row 133 (idx 132): Jumlah Gugatan - used in dashboard line 517 [value_idx[1]=132]
+    # Row 134 (idx 133): Jumlah Nominal Gugatan - used in dashboard line 517 [value_idx[2]=133]
+    # Row 135 (idx 134): Jumlah Pelanggaran Atas Ketentuan - used in dashboard line 534 [value_idx[0]=134]
+    # Row 138 (idx 137): Jumlah Denda - used in dashboard line 534 [value_idx[1]=137]
+    # Row 140 (idx 139): Jumlah Pengaduan - used in dashboard line 496 [value_idx[0]=139]
+    # Row 142 (idx 141): Tindak Lanjut Pengaduan - used in dashboard line 496 [value_idx[1]=141]
+    # Row 144 (idx 143): Pemberitaan Negatif Dalam 1 Tahun - used in dashboard line 496 [value_idx[2]=143]
 
     months = ['Aug-2024', 'Sep-2024', 'Oct-2024', 'Nov-2024', 'Dec-2024',
               'Jan-2025', 'Feb-2025', 'Mar-2025', 'Apr-2025', 'May-2025',
               'Jun-2025', 'Jul-2025', 'Aug-2025']
 
-    # Fixed financial data for each month (12 months progression)
+    # Fixed financial data for each month (13 months progression)
+    # Key = row index (0-based, excluding header row)
     fixed_monthly_data = {
-        0: [3200.50, 3250.75, 3300.25, 3350.80, 3400.50, 3450.25, 3500.00, 3550.75, 3600.50, 3650.25, 3700.00, 3750.50, 3800.75],  # Aset Investasi
-        1: [1500.00, 1520.00, 1540.00, 1560.00, 1580.00, 1600.00, 1620.00, 1640.00, 1660.00, 1680.00, 1700.00, 1720.00, 1740.00],  # Deposito Berjangka
-        2: [850.00, 860.00, 870.00, 880.00, 890.00, 900.00, 910.00, 920.00, 930.00, 940.00, 950.00, 960.00, 970.00],  # Obligasi Korporasi
-        3: [600.00, 610.00, 620.00, 630.00, 640.00, 650.00, 660.00, 670.00, 680.00, 690.00, 700.00, 710.00, 720.00],  # Surat Berharga Negara RI
-        4: [250.50, 260.75, 270.25, 280.80, 290.50, 300.25, 310.00, 320.75, 330.50, 340.25, 350.00, 360.50, 370.75],  # Reksa Dana
-        5: [450.00, 465.00, 480.00, 495.00, 510.00, 525.00, 540.00, 555.00, 570.00, 585.00, 600.00, 615.00, 630.00],  # Kas dan Bank
-        9: [8500.00, 8600.00, 8700.00, 8800.00, 8900.00, 9000.00, 9100.00, 9200.00, 9300.00, 9400.00, 9500.00, 9600.00, 9700.00],  # Jumlah Aset
-        14: [3200.00, 3250.00, 3300.00, 3350.00, 3400.00, 3450.00, 3500.00, 3550.00, 3600.00, 3650.00, 3700.00, 3750.00, 3800.00],  # Jumlah Utang
-        15: [5300.00, 5350.00, 5400.00, 5450.00, 5500.00, 5550.00, 5600.00, 5650.00, 5700.00, 5750.00, 5800.00, 5850.00, 5900.00],  # Jumlah Ekuitas
-        16: [650.00, 670.00, 690.00, 710.00, 730.00, 750.00, 770.00, 790.00, 810.00, 830.00, 850.00, 870.00, 890.00],  # Premi Bruto (All)
-        25: [720.00, 740.00, 760.00, 780.00, 800.00, 820.00, 840.00, 860.00, 880.00, 900.00, 920.00, 940.00, 960.00],  # Jumlah Pendapatan
-        26: [380.00, 390.00, 400.00, 410.00, 420.00, 430.00, 440.00, 450.00, 460.00, 470.00, 480.00, 490.00, 500.00],  # Klaim Bruto (All)
-        43: [185.00, 190.00, 195.00, 200.00, 205.00, 210.00, 215.00, 220.00, 225.00, 230.00, 235.00, 240.00, 245.00],  # Total Laba Rugi Komprehensif
-        51: [165.50, 167.25, 169.00, 170.75, 172.50, 174.25, 176.00, 177.75, 179.50, 181.25, 183.00, 184.75, 186.50],  # RBC
-        116: [45000, 45500, 46000, 46500, 47000, 47500, 48000, 48500, 49000, 49500, 50000, 50500, 51000],  # Jumlah Polis
-        117: [2, 1, 3, 2, 1, 2, 1, 0, 2, 1, 1, 2, 1],  # Jumlah Fraud
-        132: [5, 4, 6, 5, 4, 5, 3, 4, 5, 4, 3, 4, 5],  # Jumlah Gugatan
-        133: [150.00, 140.00, 160.00, 155.00, 145.00, 150.00, 135.00, 140.00, 150.00, 145.00, 135.00, 140.00, 150.00],  # Nominal Gugatan
-        134: [3, 2, 4, 3, 2, 3, 2, 1, 3, 2, 2, 3, 2],  # Jumlah Pelanggaran
-        137: [25.00, 20.00, 30.00, 25.00, 20.00, 25.00, 15.00, 20.00, 25.00, 20.00, 15.00, 20.00, 25.00],  # Jumlah Denda
-        139: [18, 15, 20, 17, 14, 16, 13, 15, 17, 14, 12, 15, 16],  # Jumlah Pengaduan
-        141: [16, 14, 18, 16, 13, 15, 12, 14, 16, 13, 11, 14, 15],  # Tindak Lanjut Pengaduan
-        143: [8, 7, 9, 8, 7, 8, 6, 7, 8, 7, 6, 7, 8],  # Pemberitaan Negatif
+        0: [3200.50, 3250.75, 3300.25, 3350.80, 3400.50, 3450.25, 3500.00, 3550.75, 3600.50, 3650.25, 3700.00, 3750.50, 3800.75],  # Row 1: Aset Investasi
+        1: [1500.00, 1520.00, 1540.00, 1560.00, 1580.00, 1600.00, 1620.00, 1640.00, 1660.00, 1680.00, 1700.00, 1720.00, 1740.00],  # Row 2: Deposito Berjangka
+        2: [850.00, 860.00, 870.00, 880.00, 890.00, 900.00, 910.00, 920.00, 930.00, 940.00, 950.00, 960.00, 970.00],  # Row 3: Obligasi Korporasi
+        3: [600.00, 610.00, 620.00, 630.00, 640.00, 650.00, 660.00, 670.00, 680.00, 690.00, 700.00, 710.00, 720.00],  # Row 4: Surat Berharga Negara RI
+        4: [250.50, 260.75, 270.25, 280.80, 290.50, 300.25, 310.00, 320.75, 330.50, 340.25, 350.00, 360.50, 370.75],  # Row 5: Reksa Dana
+        5: [450.00, 465.00, 480.00, 495.00, 510.00, 525.00, 540.00, 555.00, 570.00, 585.00, 600.00, 615.00, 630.00],  # Row 6: Kas dan Bank
+        9: [8500.00, 8600.00, 8700.00, 8800.00, 8900.00, 9000.00, 9100.00, 9200.00, 9300.00, 9400.00, 9500.00, 9600.00, 9700.00],  # Row 10: Jumlah Aset
+        14: [3200.00, 3250.00, 3300.00, 3350.00, 3400.00, 3450.00, 3500.00, 3550.00, 3600.00, 3650.00, 3700.00, 3750.00, 3800.00],  # Row 15: Jumlah Utang
+        15: [5300.00, 5350.00, 5400.00, 5450.00, 5500.00, 5550.00, 5600.00, 5650.00, 5700.00, 5750.00, 5800.00, 5850.00, 5900.00],  # Row 16: Jumlah Ekuitas
+        16: [650.00, 670.00, 690.00, 710.00, 730.00, 750.00, 770.00, 790.00, 810.00, 830.00, 850.00, 870.00, 890.00],  # Row 17: Premi Bruto (All)
+        25: [720.00, 740.00, 760.00, 780.00, 800.00, 820.00, 840.00, 860.00, 880.00, 900.00, 920.00, 940.00, 960.00],  # Row 26: Jumlah Pendapatan
+        26: [380.00, 390.00, 400.00, 410.00, 420.00, 430.00, 440.00, 450.00, 460.00, 470.00, 480.00, 490.00, 500.00],  # Row 27: Klaim Bruto (All)
+        43: [185.00, 190.00, 195.00, 200.00, 205.00, 210.00, 215.00, 220.00, 225.00, 230.00, 235.00, 240.00, 245.00],  # Row 44: Total Laba Rugi Komprehensif
+        51: [165.50, 167.25, 169.00, 170.75, 172.50, 174.25, 176.00, 177.75, 179.50, 181.25, 183.00, 184.75, 186.50],  # Row 52: RBC
+        116: [45000, 45500, 46000, 46500, 47000, 47500, 48000, 48500, 49000, 49500, 50000, 50500, 51000],  # Row 117: Jumlah Polis
+        117: [2, 1, 3, 2, 1, 2, 1, 0, 2, 1, 1, 2, 1],  # Row 118: Jumlah Fraud
+        132: [5, 4, 6, 5, 4, 5, 3, 4, 5, 4, 3, 4, 5],  # Row 133: Jumlah Gugatan
+        133: [150.00, 140.00, 160.00, 155.00, 145.00, 150.00, 135.00, 140.00, 150.00, 145.00, 135.00, 140.00, 150.00],  # Row 134: Nominal Gugatan
+        134: [3, 2, 4, 3, 2, 3, 2, 1, 3, 2, 2, 3, 2],  # Row 135: Jumlah Pelanggaran
+        137: [25.00, 20.00, 30.00, 25.00, 20.00, 25.00, 15.00, 20.00, 25.00, 20.00, 15.00, 20.00, 25.00],  # Row 138: Jumlah Denda
+        139: [18, 15, 20, 17, 14, 16, 13, 15, 17, 14, 12, 15, 16],  # Row 140: Jumlah Pengaduan
+        141: [16, 14, 18, 16, 13, 15, 12, 14, 16, 13, 11, 14, 15],  # Row 142: Tindak Lanjut Pengaduan
+        143: [8, 7, 9, 8, 7, 8, 6, 7, 8, 7, 6, 7, 8],  # Row 144: Pemberitaan Negatif
     }
 
     # Create YTD DataFrame

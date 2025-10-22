@@ -280,7 +280,7 @@ def show_dashboard():
                 present_col_ytd = st.session_state.df_ytd.columns[max(0, col_position - 11):col_position + 1]
 
                 # Tab 0: All Graphs - 2x2 Grid Layout
-                value_idx = [3, 16, 26, 43]
+                value_idx = [25, 16, 26, 43]
                 with tabs_line[0]:
                     # First row - 2 columns
                     col1_row1, col2_row1 = st.columns(2)
