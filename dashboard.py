@@ -9,12 +9,12 @@ def show_dashboard():
     """Display the risk management dashboard"""
 
     # Initialize data from fixed_data.py
-    fixed_data = initialize_fixed_data()
-    st.session_state.df_ytd = fixed_data['df_ytd']
-    st.session_state.df_summary = fixed_data['df_summary']
-    st.session_state.df_summary_present = fixed_data['df_summary_present']
-    st.session_state.latest_col_idx = fixed_data['latest_col_idx']
-    st.session_state.latest_col_ytd_idx = fixed_data['latest_col_ytd_idx']
+    df_ytd, df_summary, df_summary_present, latest_col_idx, latest_col_ytd_idx = initialize_fixed_data()
+    st.session_state.df_ytd = df_ytd
+    st.session_state.df_summary = df_summary
+    st.session_state.df_summary_present = df_summary_present
+    st.session_state.latest_col_idx = latest_col_idx
+    st.session_state.latest_col_ytd_idx = latest_col_ytd_idx
 
     # Check if data is loaded
     if st.session_state.df_summary is None or st.session_state.df_summary_present is None:

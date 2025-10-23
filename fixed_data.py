@@ -238,10 +238,4 @@ def initialize_fixed_data():
     }
     latest_col_ytd_idx = full_month_names[latest_month]  # 'August' instead of 'Aug-2025'
 
-    return {
-        'df_ytd': df_ytd,
-        'df_summary': df_summary,
-        'df_summary_present': df_summary_present,
-        'latest_col_idx': latest_col_idx,
-        'latest_col_ytd_idx': latest_col_ytd_idx
-    }
+    return df_ytd, df_summary, df_summary_present, latest_col_idx, latest_col_ytd_idx
