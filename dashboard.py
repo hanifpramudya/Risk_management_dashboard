@@ -448,7 +448,7 @@ def show_dashboard():
                     )])
                     fig_pie.update_layout(
                         title="Distribusi Portfolio Investasi",
-                        height=450,
+                        height=400,
                         margin=dict(l=10, r=10, t=40, b=120),
                         showlegend=True,
                         legend=dict(
