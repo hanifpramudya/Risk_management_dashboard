@@ -3,6 +3,7 @@ import plotly.graph_objects as go
 import pandas as pd
 import numpy as np
 from utils import format_value, format_percentage, null_value
+from fixed_data import initialize_fixed_data
 
 def show_dashboard():
     """Display the risk management dashboard"""
@@ -120,31 +121,8 @@ def show_dashboard():
             latest_col_idx = st.session_state.latest_col_idx if st.session_state.latest_col_idx else len(st.session_state.df_summary.columns) - 1
             prev_col_idx = latest_col_idx - 3
 
-    # Calculate summary column indices based on selected date
-    if st.session_state.df_summary is not None and latest_col_idx is not None:
-        try:
-            # Ensure indices are valid
-            if prev_col_idx >= 0 and latest_col_idx < len(st.session_state.df_summary.columns):
-                present_month_col = st.session_state.df_summary.columns[latest_col_idx]
-                prev_month_col = st.session_state.df_summary.columns[prev_col_idx]
-
-                # Check if 'Jenis Risiko' column exists
-                if 'Jenis Risiko' in st.session_state.df_summary.columns:
-                    df_summary_display = st.session_state.df_summary[['Jenis Risiko', prev_month_col, present_month_col]].copy()
-                    df_summary_display.columns = ['Kategori Risiko', 'previous_month', 'present_month']
-                else:
-                    # Use first column as risk category
-                    df_summary_display = st.session_state.df_summary.iloc[:, [0, prev_col_idx, latest_col_idx]].copy()
-                    df_summary_display.columns = ['Kategori Risiko', 'previous_month', 'present_month']
-            else:
-                # Fallback to session state
-                df_summary_display = st.session_state.df_summary_present
-        except Exception as e:
-            # Fallback to session state
-            df_summary_display = st.session_state.df_summary_present
-    else:
-        # Fallback to session state
-        df_summary_display = st.session_state.df_summary_present
+    # Use df_summary_present for df_summary_display
+    df_summary_display = st.session_state.df_summary_present
 
     col_summary, col_nps= st.columns([3, 2])
 
