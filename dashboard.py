@@ -516,62 +516,79 @@ def show_dashboard():
 
         st.markdown("</div>", unsafe_allow_html=True)
 
-    # Additional Metrics Section - 3 columns with multiple rows
-    col_a, col_b, col_c = st.columns(3)
-    value_idx = [139,141,143]
+    # Non-Financial Risks Section
+    st.markdown("""
+        <style>
+        .non-financial-risks-container {
+            background-color: #FFFFE0;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        </style>
+    """, unsafe_allow_html=True)
 
-    # First column - 3 rows
-    with col_a:
-        titles_col_a = ["Jumlah Pengaduan", "Indak Lanjut Pengaduan", "Jumlah Pemberitaan Negatif Dalam 1 Tahun"]
-        for i, title in enumerate(titles_col_a):
-            with st.container(border=True):
-                st.markdown(f"<div style='text-align: center; color: #999; font-size: 12px;'>{title}</div>", unsafe_allow_html=True)
-                if st.session_state.df_ytd is not None and latest_col_ytd_idx:
-                    try:
-                        # Get the data column (next column after month name)
-                        col_position = st.session_state.df_ytd.columns.get_loc(latest_col_ytd_idx)
-                        data_col = st.session_state.df_ytd.columns[col_position + 1]
-                        value = null_value(st.session_state.df_ytd[data_col].iloc[value_idx[i]])
-                        st.markdown(f"<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>{value}</div>", unsafe_allow_html=True)
-                    except Exception as e:
-                        st.markdown("<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>0</div>", unsafe_allow_html=True)
-                else:
-                    st.markdown("<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>0</div>", unsafe_allow_html=True)
+    with st.container(border=True):
+        st.markdown("<div class='non-financial-risks-container'><h3 style='text-align: center; color: #1f4788; margin: 0 0 15px 0;'>Non Financial Risk</h3>", unsafe_allow_html=True)
 
-    # Second column - 2 rows
-    with col_b:
-        titles_col_b = ["Jumlah Fraud","Jumlah Gugatan", "Jumlah Nominal Gugatan Yang Sedang Diajukan"]
-        value_idx = [117,132,133]
-        for i, title in enumerate(titles_col_b):
-            with st.container(border=True):
-                st.markdown(f"<div style='text-align: center; color: #999; font-size: 12px;'>{title}</div>", unsafe_allow_html=True)
-                if st.session_state.df_ytd is not None and latest_col_ytd_idx:
-                    try:
-                        # Get the data column (next column after month name)
-                        col_position = st.session_state.df_ytd.columns.get_loc(latest_col_ytd_idx)
-                        data_col = st.session_state.df_ytd.columns[col_position + 1]
-                        value = null_value(st.session_state.df_ytd[data_col].iloc[value_idx[i]])
-                        st.markdown(f"<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>{value}</div>", unsafe_allow_html=True)
-                    except Exception as e:
-                        st.markdown("<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>0</div>", unsafe_allow_html=True)
-                else:
-                    st.markdown("<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>0</div>", unsafe_allow_html=True)
+        # Additional Metrics Section - 3 columns with multiple rows
+        col_a, col_b, col_c = st.columns(3)
+        value_idx = [139,141,143]
 
-    # Third column - 2 rows
-    with col_c:
-        titles_col_c = ["Jumlah Pelanggaran Atas Ketentuan", "Jumlah Denda"]
-        value_idx = [134,137]
-        for i, title in enumerate(titles_col_c):
-            with st.container(border=True):
-                st.markdown(f"<div style='text-align: center; color: #999; font-size: 12px;'>{title}</div>", unsafe_allow_html=True)
-                if st.session_state.df_ytd is not None and latest_col_ytd_idx:
-                    try:
-                        # Get the data column (next column after month name)
-                        col_position = st.session_state.df_ytd.columns.get_loc(latest_col_ytd_idx)
-                        data_col = st.session_state.df_ytd.columns[col_position + 1]
-                        value = null_value(st.session_state.df_ytd[data_col].iloc[value_idx[i]])
-                        st.markdown(f"<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>{value}</div>", unsafe_allow_html=True)
-                    except Exception as e:
+        # First column - 3 rows
+        with col_a:
+            titles_col_a = ["Jumlah Pengaduan", "Indak Lanjut Pengaduan", "Jumlah Pemberitaan Negatif Dalam 1 Tahun"]
+            for i, title in enumerate(titles_col_a):
+                with st.container(border=True):
+                    st.markdown(f"<div style='text-align: center; color: #999; font-size: 12px;'>{title}</div>", unsafe_allow_html=True)
+                    if st.session_state.df_ytd is not None and latest_col_ytd_idx:
+                        try:
+                            # Get the data column (next column after month name)
+                            col_position = st.session_state.df_ytd.columns.get_loc(latest_col_ytd_idx)
+                            data_col = st.session_state.df_ytd.columns[col_position + 1]
+                            value = null_value(st.session_state.df_ytd[data_col].iloc[value_idx[i]])
+                            st.markdown(f"<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>{value}</div>", unsafe_allow_html=True)
+                        except Exception as e:
+                            st.markdown("<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>0</div>", unsafe_allow_html=True)
+                    else:
                         st.markdown("<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>0</div>", unsafe_allow_html=True)
-                else:
-                    st.markdown("<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>0</div>", unsafe_allow_html=True)
+
+        # Second column - 2 rows
+        with col_b:
+            titles_col_b = ["Jumlah Fraud","Jumlah Gugatan", "Jumlah Nominal Gugatan Yang Sedang Diajukan"]
+            value_idx = [117,132,133]
+            for i, title in enumerate(titles_col_b):
+                with st.container(border=True):
+                    st.markdown(f"<div style='text-align: center; color: #999; font-size: 12px;'>{title}</div>", unsafe_allow_html=True)
+                    if st.session_state.df_ytd is not None and latest_col_ytd_idx:
+                        try:
+                            # Get the data column (next column after month name)
+                            col_position = st.session_state.df_ytd.columns.get_loc(latest_col_ytd_idx)
+                            data_col = st.session_state.df_ytd.columns[col_position + 1]
+                            value = null_value(st.session_state.df_ytd[data_col].iloc[value_idx[i]])
+                            st.markdown(f"<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>{value}</div>", unsafe_allow_html=True)
+                        except Exception as e:
+                            st.markdown("<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>0</div>", unsafe_allow_html=True)
+                    else:
+                        st.markdown("<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>0</div>", unsafe_allow_html=True)
+
+        # Third column - 2 rows
+        with col_c:
+            titles_col_c = ["Jumlah Pelanggaran Atas Ketentuan", "Jumlah Denda"]
+            value_idx = [134,137]
+            for i, title in enumerate(titles_col_c):
+                with st.container(border=True):
+                    st.markdown(f"<div style='text-align: center; color: #999; font-size: 12px;'>{title}</div>", unsafe_allow_html=True)
+                    if st.session_state.df_ytd is not None and latest_col_ytd_idx:
+                        try:
+                            # Get the data column (next column after month name)
+                            col_position = st.session_state.df_ytd.columns.get_loc(latest_col_ytd_idx)
+                            data_col = st.session_state.df_ytd.columns[col_position + 1]
+                            value = null_value(st.session_state.df_ytd[data_col].iloc[value_idx[i]])
+                            st.markdown(f"<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>{value}</div>", unsafe_allow_html=True)
+                        except Exception as e:
+                            st.markdown("<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>0</div>", unsafe_allow_html=True)
+                    else:
+                        st.markdown("<div style='text-align: center; font-size: 20px; font-weight: bold; color: #333; margin: 5px 0;'>0</div>", unsafe_allow_html=True)
+
+        st.markdown("</div>", unsafe_allow_html=True)
