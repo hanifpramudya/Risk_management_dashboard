@@ -37,21 +37,20 @@ def show_dashboard():
             </div>
         ''', unsafe_allow_html=True)
 
-    # Date selector with fixed month list from July-2024 to August-2025
+    # Date selector with fixed month list
     date_col1, date_col2 = st.columns([1, 5])
     selected_date = None
     with date_col1:
-        # Create fixed list of months from July-2024 to August-2025
+        # Create fixed list of months
         available_dates = [
-            'July-2024', 'August-2024', 'September-2024', 'October-2024', 'November-2024', 'December-2024',  # 2024
-            'January-2025', 'February-2025', 'March-2025', 'April-2025', 'May-2025', 'June-2025', 'July-2025', 'August-2025'  # 2025
+            'January', 'February', 'March', 'April', 'May', 'June','July', 'August', 'September', 'October', 'November', 'December'
         ]
 
         # Default to August (last month in the list)
         selected_date = st.selectbox(
             "Select Date",
             options=available_dates,
-            index=len(available_dates) - 1  # Default to August-2025
+            index=len(available_dates) - 1  # Default to August
         )
 
     # Get latest_col_ytd_idx from selected_date or session state
