@@ -43,8 +43,8 @@ def show_dashboard():
     with date_col1:
         # Create fixed list of months from July-2024 to August-2025
         available_dates = [
-            'July', 'August', 'September', 'October', 'November', 'December',  # 2024
-            'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August'  # 2025
+            'July-2024', 'August-2024', 'September-2024', 'October-2024', 'November-2024', 'December-2024',  # 2024
+            'January-2025', 'February-2025', 'March-2025', 'April-2025', 'May-2025', 'June-2025', 'July-2025', 'August-2025'  # 2025
         ]
 
         # Default to August (last month in the list)
