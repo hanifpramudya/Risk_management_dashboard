@@ -137,15 +137,15 @@ if 'data_loaded' not in st.session_state:
 # Auto-load fixed data on first run
 if not st.session_state.data_loaded:
     try:
-        # Initialize fixed data
-        fixed_data = initialize_fixed_data()
+        # Initialize fixed data - returns a tuple
+        df_ytd, df_summary, df_summary_present, latest_col_idx, latest_col_ytd_idx = initialize_fixed_data()
 
         # Store in session state
-        st.session_state.df_ytd = fixed_data['df_ytd']
-        st.session_state.df_summary = fixed_data['df_summary']
-        st.session_state.df_summary_present = fixed_data['df_summary_present']
-        st.session_state.latest_col_idx = fixed_data['latest_col_idx']
-        st.session_state.latest_col_ytd_idx = fixed_data['latest_col_ytd_idx']
+        st.session_state.df_ytd = df_ytd
+        st.session_state.df_summary = df_summary
+        st.session_state.df_summary_present = df_summary_present
+        st.session_state.latest_col_idx = latest_col_idx
+        st.session_state.latest_col_ytd_idx = latest_col_ytd_idx
         st.session_state.data_loaded = True
 
     except Exception as e:
