@@ -249,7 +249,7 @@ def show_dashboard():
         </style>
     """, unsafe_allow_html=True)
 
-    with st.container():
+    with st.container(border=True):
         st.markdown("<div class='financial-risks-container'><h3 style='text-align: center; color: #1f4788; margin: 0 0 15px 0;'>Financial Risks</h3>", unsafe_allow_html=True)
 
         # Financial Metrics Section
