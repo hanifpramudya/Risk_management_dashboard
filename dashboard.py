@@ -37,25 +37,22 @@ def show_dashboard():
             </div>
         ''', unsafe_allow_html=True)
 
-    # Date selector
+    # Date selector with fixed month list from July-2024 to August-2025
     date_col1, date_col2 = st.columns([1, 5])
     selected_date = None
     with date_col1:
-        if st.session_state.latest_col_ytd_idx and st.session_state.df_ytd is not None:
-            # Get columns up to latest_col_ytd_idx, excluding 'Parameter' and 'Unnamed' columns
-            temp_col_position = st.session_state.df_ytd.columns.get_loc(st.session_state.latest_col_ytd_idx)
-            available_dates = [col for col in st.session_state.df_ytd.columns[:temp_col_position+1]
-                             if col != 'Parameter' and not str(col).startswith('Unnamed')]
-            if available_dates:
-                selected_date = st.selectbox(
-                    "Select Date",
-                    options=available_dates,
-                    index=len(available_dates) - 1
-                )
-            else:
-                st.warning("No dates available")
-        else:
-            st.warning("No dates available")
+        # Create fixed list of months from July-2024 to August-2025
+        available_dates = [
+            'July', 'August', 'September', 'October', 'November', 'December',  # 2024
+            'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August'  # 2025
+        ]
+
+        # Default to August (last month in the list)
+        selected_date = st.selectbox(
+            "Select Date",
+            options=available_dates,
+            index=len(available_dates) - 1  # Default to August-2025
+        )
 
     # Get latest_col_ytd_idx from selected_date or session state
     if selected_date and st.session_state.df_ytd is not None:
